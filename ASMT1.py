@@ -1,6 +1,12 @@
 # ASMT1
 # SKLEARN LINEAR_MODEL 				            eg <> fr6 ppt Week 2-2
 
+# pip3 install <lib>   EG;
+  # pip3 install pandas     or
+  # pip3 install -U scikit-learn    etc
+# To run   
+  # $ python3 ASMT1.py
+
 #///
 # stackoverflow.com/questions/61208808/how-to-use-pandas-dataframes-with-sklearn
 import pandas as pd
@@ -21,10 +27,10 @@ from sklearn.linear_model import LinearRegression
 #///
 
 
-df = pandas.read_csv("/Users/thomasperez/Desktop/DDoSdata.csv")
+df = pd.read_csv("/Users/thomasperez/Desktop/DDoSdata.csv")
 
 X = df[['state', 'saddr']]
-y = df['A']
+y = df['saddr']
 
 # Create a classification method. Also splitting the data into training and testing data
 regr = linear_model.LinearRegression()
@@ -33,11 +39,11 @@ regr = linear_model.LinearRegression()
 regr.fit(X, y)
 
 # Predicts the response of a device from an IoT being attacked ('A'), or operating normally.  
-predictedA = regr.predict([RST], [192.168.100.150])
-
+# predictedA = regr.predict([[RST, 192.168.100.150]]) #o
+predictedA = regr.predict(RST)
 
 print(A)
 
-# test7
+# test11
 
 
