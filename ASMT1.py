@@ -23,17 +23,18 @@ from sklearn.linear_model import LinearRegression
 
 df = pandas.read_csv("/Users/thomasperez/Desktop/DDoSdata.csv")
 
-X = df[['state', 'saddr']]
+X = df[['state', 'saddr']]
 y = df['A']
 
 # Create a classification method. Also splitting the data into training and testing data
-regr = linear_model.LinearRegression()
+regr = linear_model.LinearRegression()
 
 # Train the model portion
 regr.fit(X, y)
 
 # Predicts the response of a device from an IoT being attacked ('A'), or operating normally.  
-predictedA = regr.predict([[RST, 192.168.100.150]])
+predictedA = regr.predict([RST], [192.168.100.150])
+
 
 print(A)
 
