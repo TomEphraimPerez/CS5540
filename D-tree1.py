@@ -27,7 +27,7 @@ df[someInitFeature] = df[someInitfeature].map(d)
 '''
 
 
-# Traffic Monitors/C-plane monitor = ['tcp.time_delta ** ', 'ip.src', 'ip.dst', 'tcp.dstport' XXXXXXXXXXXXXXXXXXXXXXXXXXXX] 
+# Traffic Monitors/C-plane monitor = ['tcp.time_delta ** ', 'ip.src', 'ip.dst', 'tcp.dstport', 'ip.len'] 
     # ...to choose from dataset_attack.csv
 # DEFINITIONS ___________________________________________________________________________________________________
 # ip.flags.df | df means Don't Fragment -> drop pkt and an get ICMP msg. The pkt can't be fragmented for transmission.
@@ -41,15 +41,15 @@ df[someInitFeature] = df[someInitfeature].map(d)
 # tcp.time_delta > 1. 
 # The field tcp.time_delta is calculated by calculating the difference between packets within the same tcp stream.
 
-#      REGARDING THE DS's TCP.FLAGS. _ _   geeksforgeeks.org/tcp-flags/             
+#      REGARDING THE (our) DS's TCP.FLAGS. _ _   geeksforgeeks.org/tcp-flags/             
 # tcp.flags.res -  ...        for all definitions, SEE "DT/NOTES.txt"
 # tcp.flags.ns - 
 # tcp.flags.cwr -
-# tcp.flags.enc -
+# tcp.flags.ecn -
 # tcp.flags.urg -
 # tcp.flags.ack -
 # tcp.flags.push -
-# tcp.flags.reset -
+# - - - - - - - - ->  tcp.flags.reset -
 # tcp.flags.syn -
 # tcp.flags.fin -
 
@@ -62,7 +62,7 @@ df[someInitFeature] = df[someInitfeature].map(d)
 # src IP
 # dest IP
 # port
-#       [Consider the] fcapture tool. (Lecture Wed 6-17)
+#       [Consider the] fcapture tool.       (Lecture Wed 6-17)
 #       Each flow record contains: (as per lecture)
 #           time
 #           duration
@@ -71,8 +71,12 @@ df[someInitFeature] = df[someInitfeature].map(d)
 #           dest port
 #           num pkts
 #           pkts / byte transfered in both directons
+# Traffic Monitors/C-plane monitor = ['tcp.time_delta ** ', 'ip.src', 'ip.dst', 'tcp.dstport', 'ip.len']  >>>
+features = ['tcp.time_delta', 'ip.src', 'ip.dst', 'tcp.dstport', 'ip.len'] # Translated from list just bove
 X = df[features]
-y = ['ip.flags.df']
+# y = ['ip.flags.df']
+# y = ['ip.flags.reset']            # Try _.reset when cvs's are combined. (See def above)
+
 print(X)
 print(y)
 print('\n')
@@ -105,6 +109,7 @@ from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
 from sklearn.inspection import DecisionBoundaryDisplay
+    <<<
 '''
 
 
