@@ -1,0 +1,264 @@
+
+FEATURES
+https://paperswithcode.com/paper/feature-selection-for-intrusion-detection/review/      63 festures
+vs
+https://www.hindawi.com/journals/scn/2021/8830431/tab9/					78 features
+						     Our given dataset, (ppt Week2) has 88 features.
+
+ASU >>> Prominant Features :
+Detecting Prominent Features and Classifying Network Traffic for Securing Internet of Things Based on Ensemble Methods
+https://core.ac.uk/download/pdf/200249916.pdf
+
+
+
+
+///////////////////////
+wk1 ppt "WHERE TO FIND DATA"
+
+Any benchmark dataset? Eg.,
+https://www.unb.ca/cic/datasets/index.html     <-REBEL->       unb.ca/cic/datasets/index.html
+
+Kaggle:
+>>>  https://www.kaggle.com/siddharthm1698/ddos-botnet-attack-on-iot-devices   
+  https://www.kaggle.com/datasets/siddharthm1698/ddos-botnet-attack-on-iot-devices?select=DDoSdata.csv  <<<
+<<<
+
+https://www.kaggle.com/pedrohauy/sampledtftpattackcicddos2019
+https://www.kaggle.com/yashwanthkumbam/apaddos-dataset
+https://www.kaggle.com/preeti5607/ddos-attack-prevention
+
+>>> https://www.kaggle.com/datasets/siddharthm1698/ddos-botnet-attack-on-iot-devices?select=DDoSdata.csv
+col A 		= ID
+pkSeqID 	= row idwntifier
+stime 		= record start time
+flgs 		= flow state flags seen in transactions
+flgs_number 	= numerical representation of feature flags
+proto 		= textual representation of transaction protocols present in network flow
+proto_number 	= numerical representation of feature proto
+saddr 		= src IP addr
+sport 		= src port number
+daddr 		= dest IP addr
+    FOR MORE, select "10 - 47 columns   v " pulldown.
+
+import opendatasets as od
+https://www.analyticsvidhya.com/blog/2021/04/how-to-download-kaggle-datasets-using-jupyter-notebook/
+
+from kaggle import api
+https://28-08-2000.github.io/2021/06/16/how_download_Kaggle_datasets.html
+///////////////////////
+
+
+
+
+--------- Neural nets, KNN, SVC, Gauss, Tree, Rand Forest, Ada, -------------- 
+# scikit-learn.org/stable/auto_examples/classification/plot_classifier_comparison.html
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.colors import ListedColormap
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.datasets import make_moons, make_circles, make_classification
+from sklearn.neural_network import MLPClassifier
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.svm import SVC
+from sklearn.gaussian_process import GaussianProcessClassifier
+from sklearn.gaussian_process.kernels import RBF
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
+from sklearn.naive_bayes import GaussianNB
+from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
+from sklearn.inspection import DecisionBoundaryDisplay
+-----------------------------------------------------------------------------
+
+
+\\\\\\\\\\\\ SCRATCH \\\\\\\\\\\\\\\\\
+/Users/thomasperez/5540Smr22Team/GroupProject1/DS1/CS5540/ASMT1.py        #OK
+Row1 Col T = 0.135347
+Row159 Col T 8.00E-06
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+
+\][\][\][\][\][\][\][\][\][\][\][\][\]
+Zoom2 => MS Teams meeting with Rebel (only) 6-14-22)1600;
+
+Theme; "Keep it Simple" (Hello World)
+  Priorities;
+1)	Chose "DDoS Attack Prevention" (last link in prompt and ppt) (Consists of 2 files; A and N).
+2)	Combine A dna N later. Focus on building models.
+3)	Develop the models (NN, Tree ...) by choosing important (and/or derived) FEATURES 
+4)	Test the models.
+(5))    Revise mdl, features, DS ...
+\][\][\][\][\
+https://www.simplilearn.com/tutorials/machine-learning-tutorial/feature-selection-in-machine-learning
+  Everything You Need to Know About Feature Selection In Machine Learning
+
+Supervised Models: Supervised feature selection refers to the method which uses the output label class for feature selection. They use the target variables to identify the variables which can increase the efficiency of the model.
+Unsupervised Models: Unsupervised feature selection refers to the method which does not need the output label class for feature selection. We use them for unlabelled data.
+                       So - ~E the INITIAL(aka ORIGINAL) set of FEATURES, (Labels/(headers) and FINAL set of FEATURES)
+\][\][\][\][\][\][\][\][\][\][\][\][\]
+
+
+
+======  KOBE BRYANT eg ==== FEATURE SELECTION MODEL LOOKUP=============
+        simplilearn.com/tutorials/machine-learning-tutorial/feature-selection-in-machine-learning
+Based on whether we have numerical or categorical variables as inputs and outputs, we can choose our feature selection model as follows:
+
+---Input Variable ---		Output Variable	 ---		Feature Selection Model
+
+	Numerical		Numerical		Pearson’s correlation coefficient
+							Spearman’s rank coefficient
+
+	Numerical		Categorical		ANOVA correlation coefficient (linear).
+							Kendall’s rank coefficient (NONlinear).
+
+	Categorical		Numerical		Kendall’s rank coefficient (linear).
+							ANOVA correlation coefficient (NONlinear).
+
+	Categorical		Categorical		Chi-Squared test (contingency tables).
+							Mutual Information.
+
+=======================================================================
+
+
+||||||||||||||||||||||||||||||||||||
+keboola.com/blog/decision-trees-machine-learning
+			2.4 Disadvantages of decision trees
+
+Like most things, the machine learning approach also has a few disadvantages:
+
+Overfitting. Decision trees overfit very quickly. If you let them grow without a stopping mechanism or a correction mechanism after the tree has been trained, they can split so many times that each leaf is a sample. This means that they’ve literally learned how the training data set looks and suffer from high variance (generalize poorly to novel data). Check the chapter below for practical advice on correcting overfitting.
+
+Non-robust to input data changes. A small change in training data can result in a completely different tree. The overall accuracy might still be high, but the specific decision splits will be totally different.
+
+Biased towards the dominant class. Classification decision trees tend to favor predicting the dominant class in datasets with class imbalance. 
+Below, we offer practical tips on how to improve decision trees to mitigate their weaknesses
+
+||||||||||||
+			educba.com/machine-learning-algorithms/?source=leftnav
+The field of Machine Learning Algorithms could be categorized into:
+
+Supervised Learning: In Supervised Learning, the data set IS LABELED, i.e., for every feature or independent variable, there is a corresponding target data which we would use to train the model.
+
+Un-Supervised Learning: Unlike in Supervised Learning, the data set is NOT LABELED in this case. 
+Thus CLUSTERING technique is used to GROUP the data based on its SIMILARITY among the data points in the SAME GROUP.
+
+Reinforcement Learning: A special type of Machine Learning where the MODEL LEARNS FR EA ACTION TAKEN. 
+The model is rewarded for any correct decision made and penalized for any wrong decision, 
+which allows it to LEARN THE PATTERNS and make better accurate decisions on unknown data.
+				GOOD STARTER, esp for TREE
+https://www.w3schools.com/python/python_ml_decision_tree.asp
+https://www.w3schools.com/python/python_ml_decision_tree.asp
+
+||||||||||||||||||||||||||||||||||||
+
+
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+features = ['ip.len', 'tcp.len']     # [including more]
+# DEFINITIONS ___________________________________________________________________________________________________
+# ip.flags.df | df means Don't Fragment -> drop pkt and an ICMP meg. The pkt can't be fragmented for transmission.
+    # When unset, (0) it means that the pkt CAN be fragmented.
+# ip.flags.mf | mf means that the pkt contains more fragments. 
+    # When unset, (0) it means that no more fragments remain. 
+
+ ** ask.wireshark.org/question/12313/what-is-the-difference-between-time-and-delta-time/
+#           What's the difference between time and delta time?
+# If you want to search for gaps of more than one 1 second within a TCP session, you can use the filter 
+# tcp.time_delta > 1. 
+# The field tcp.time_delta is calculated by calculating the difference between packets within the same tcp stream.
+
+
+
+#      REGARDING THE DS's (dataset_attack.csv) TCP.FLAGS. _ _   geeksforgeeks.org/tcp-flags/             
+# tcp.flags.res -  
+It is used in first step of connection establishment phase or 3-way handshake process between the two hosts. Only the first packet from sender as well as receiver should have this flag set. This is used for synchronizing sequence number i.e. to tell the other end which sequence number they should accept. [Geeks]
+
+# tcp.flags.ns - 
+
+
+# tcp.flags.cwr -
+
+
+# tcp.flags.enc -
+
+
+# tcp.flags.urg -
+Data inside a segment with URG = 1 flag is forwarded to application layer immediately even if there are more data to be given to application layer. It is used to notify the receiver to process the urgent packets before processing all other packets. The receiver will be notified when all known urgent data has been received.
+
+# tcp.flags.ack -
+It is used to acknowledge packets which are successful received by the host. The flag is set if the acknowledgement number field contains a valid acknowledgement number. 
+In given below diagram, the receiver sends an ACK = 1 as well as SYN = 1 in the second step of connection establishment to tell sender that it received its initial packet. [Geeks]
+
+# tcp.flags.push -
+Transport layer by default waits for some time for application layer to send enough data equal to maximum segment size so that the number of packets transmitted on network minimizes which is not desirable by some application like interactive applications(chatting). Similarly transport layer at receiver end buffers packets and transmit to application layer if it meets certain criteria. 
+This problem is solved by using PSH. Transport layer sets PSH = 1 and immediately sends the segment to network layer as soon as it receives signal from application layer. Receiver transport layer, on seeing PSH = 1 immediately forwards the data to application layer. 
+In general, it tells the receiver to process these packets as they are received instead of buffering them. 
+
+
+# tcp.flags.reset - 	THINK BASKETBALL TURNOVER
+It is used to terminate the connection if the RST sender feels something is wrong with the TCP connection or that the conversation should not exist. 
+It can get send from receiver side when 
+packet is send to particular 
+host that was 
+not expecting 
+it. 	[Geeks]		THINK BASKETBALL TURNOVER
+
+# tcp.flags.syn -
+
+
+# tcp.flags.fin -
+ It is used to request for connection termination i.e. when there is no more data from the sender, it requests for connection termination. This is the last packet sent by sender. It frees the reserved resources and gracefully terminate the connection. [Geeks]
+
+# END definitions _______________________________________________________________________________________________
+
+
+
+
+# Recall; C-plane Clustering (captures ntwk flows and records on whom-is-talking-to-whom) determined by:
+# protocol (TCP or UDP)
+# src IP
+# dest IP
+# port
+#       Consider the fcapture tool. (Lecture Wed 6-17)
+#       Each flow record contains:
+#           time
+#           duration
+#           src ip
+#           dest ip
+#           dest port
+#           num pkts
+#           pkts / byte transfered in both directons
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+
+..........Prof-> 7-15-22 L ................ CANVAS/MODUESCONFERENCE-LIST......................
+
+ACM Conference on Computer and Communication Security (CCS)
+IEEE Symposium on Security and Privacy (Okland)
+Network and Distributed System Security Symposium (NDSS)
+
+....prof -> Reading-list.pdf........
+1. Autonomous driving security:
+a. Adversarial Sensor Attack on LiDAR-based Perception in Autonomous Driving
+b. Security of Deep Learning based Lane Keeping System under Physical-World Adversarial
+Attack
+c. FOOLING DETECTION ALONE IS NOT ENOUGH: ADVERSARIAL ATTACK AGAINST
+MULTIPLE OBJECT TRACKING
+2. IoT security:
+a. Fingerprinting Bluetooth-Low-Energy Devices Based on the Generic Attribute Profile
+b. Protecting Actuators in Safety-Critical IoT Systems from Control Spoofing Attacks
+3. Mobile security:
+a. Things You May Not Know About Android 4. Robot and Cyber-Physical System security:
+a. Towards Automated Safety Vetting of PLC Code
+5. SDN security:
+a. When Match Fields Do Not Need to Match
+b. Control Plane Reflection Attacks in SDNs: New Attacks and Countermeasures
+6. Botnet:
+a. BotSniffer: Detecting Botnet Command and Control Channels in Network Traffic
+...................................
+..............................................................................................
+
+
+
