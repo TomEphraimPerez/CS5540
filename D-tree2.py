@@ -15,14 +15,14 @@ import os
 #os.environ['PATH'] = os.environ['/Users/thomasperez/opt/anaconda3/pkgs/sphinx-4.4.0-pyhd3eb1b0_0/site-packages/sphinx/templates/graphviz']
 
 #import graphviz
-from sklearn.tree import export_graphviz        # Unused 6-18
 import pandas
+from sklearn.tree import export_graphviz        # XXXXXXXXXXXXXXXXXXXXXXXXXX
+
+from sklearn.tree import plot_tree
+
 # import numpy as np                            # Not used Sat 6-18
 from sklearn import tree
-
 import pydotplus
-from sklearn.tree import export_graphviz
-
 from sklearn.tree import DecisionTreeClassifier
 import matplotlib.pyplot as plt
 import matplotlib.image as pltimg 
@@ -64,6 +64,7 @@ df[someInitFeature] = df[someInitfeature].map(d)
 # tcp.time_delta > 1. 
 # The field tcp.time_delta is calculated by calculating the difference between packets within the same tcp stream.
 
+
 #      REGARDING THE (our) DS's TCP.FLAGS. _ _   geeksforgeeks.org/tcp-flags/             
 # tcp.flags.res -  ...        for all definitions, SEE "DT/NOTES.txt"
 # tcp.flags.ns - 
@@ -75,7 +76,6 @@ df[someInitFeature] = df[someInitfeature].map(d)
 # - - - - - - - - ->  tcp.flags.reset -
 # tcp.flags.syn -
 # tcp.flags.fin -
-
 # END definitions _______________________________________________________________________________________________
 
 
@@ -96,6 +96,9 @@ df[someInitFeature] = df[someInitfeature].map(d)
 #           pkts / byte transfered in both directons
 # Traffic Monitors/C-plane monitor = ['tcp.time_delta ** ', 'ipsrc', 'ipdst', 'tcp.dstport', 'ip.len']  >>>
 # features = ['ipsrc', 'ipdst'] # Translated from list just above. COnverted IP to long int using excel/find-replace dot w/ nothing.
+
+
+
 features = ['ipdst', 'ip.len']     # init/orignal features
 X = df[features]
 # y = df['ip.flags.reset']            # Try _.reset when cvs's are combined. (See def above)
@@ -114,14 +117,23 @@ data = tree.export_graphviz(dtree, out_file = None, feature_names = features)   
 # data = tree.export_graphviz(dtree, feature_names = features)
 graph = pydotplus.graph_from_dot_data(data)
 
-graph.write_png('D-tree1.png')                  # Error >>>
-# pydotplus.graphviz.InvocationException: GraphViz's executables not found
-# Installed Anaconda sci' packages -> stil bad.
-# TRY: $ svn list https://svn.code.sf.net/p/netpbm/code/stable
+# https://stackoverflow.com/questions/27666846/pydot-invocationexception-graphvizs-executables-not-found
+    # As opposed to graphviz.py
+plt.figure(figsize=(60,30))
+print('\n\t\tplt.figure as opossed to using graphviz ')
+plot_tree(dtree, filled=True);
+print('\n\t\tplot_tree(...) as opposed to using graphviz -> should have a plot below.')
 
-img = pltimg.imread('D-tree1.png')
-imgplot =  plt.imshow(img)
+plt.show()                         
+
+print('\n\n')
+'''
+graph.write_png('D-tree1.png')                  # 0. Error >>>
+img = pltimg.imread('D-tree1.png')              # o.
+imgplot =  plt.imshow(img)                      # o.
 plt.show()
+'''
+
 
 
 
