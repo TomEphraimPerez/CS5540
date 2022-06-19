@@ -3,22 +3,38 @@
 
 # in VS, ^ cmd P -> Python tools, etc, eg python interpreters
 
+# $ bash                    # Nav to bash
+# pwd                       # /Users/thomasperez/5540Smr22Team/GroupProject1/DS1/CS5540
+# ($ conda install graphviz # 3hr installation. conda --version  -> conda 4.12.0 in bash)
+
 print("\n\t1st rendition/iteration/generation of a decision tree for \"ddos-attacl-prevention\'.")
 print('\n')
 
-import sys
+import sys                                      # Unused
+import os
+#os.environ['PATH'] = os.environ['/Users/thomasperez/opt/anaconda3/pkgs/sphinx-4.4.0-pyhd3eb1b0_0/site-packages/sphinx/templates/graphviz']
+
+#import graphviz
+from sklearn.tree import export_graphviz        # Unused 6-18
 import pandas
-# import numpy as np                          # Not used Sat 6-18
+# import numpy as np                            # Not used Sat 6-18
 from sklearn import tree
+
 import pydotplus
+from sklearn.tree import export_graphviz
+
 from sklearn.tree import DecisionTreeClassifier
 import matplotlib.pyplot as plt
 import matplotlib.image as pltimg 
 
-str1 = "/library/frameworks/python.framework/versions/3.6/lib/python3.6/site-packages/graphviz/"
-sys.path.append(str1)
+#str1 = "/library/frameworks/python.framework/versions/3.6/lib/python3.6/site-packages/graphviz/"
+#sys.path.append(str1)
+
 from sklearn import tree
 
+#str1 = "/Users/thomasperez/opt/anaconda3/pkgs/sphinx-4.4.0-pyhd3eb1b0_0/site-packages/sphinx/templates/graphviz/"
+#sys.path.append(str1)
+# import graphviz
 
 df = pandas.read_csv("~/Desktop/Archive/dataset_attack.csv")
 df = df.reindex(columns=['frame.encap_type', 'frame.len', 'ip.hdr_len', 'ip.len', 'ip.flags.rb', 'ip.flags.df', 'ip.flags.mf', 'ip.frag_offset', 'ip.ttl', 'ip.proto', 'ipsrc', 'ipdst', 'tcp.srcport', 'tcp.dstport', 'tcp.len', 'tcp.ack', 'tcp.flags.res', 'tcp.flags.ns', 'tcp.flags.cwr', 'tcp.flags.ecn', 'tcp.flags.urg', 'tcp.flags.ack', 'tcp.flags.push', 'tcp.flags.reset', 'tcp.flags.syn', 'tcp.flags.fin', 'tcp.window_size', 'tcp.time_delta', 'A'])
@@ -94,7 +110,8 @@ print('\n\n')
 # dtree = DecisionTreeClassifier(criterion='gini')      # O. Possibly necessry
 dtree = DecisionTreeClassifier()
 dtree = dtree.fit(X, y)         
-data = tree.export_graphviz(dtree, out_file = None, feature_names = features)
+data = tree.export_graphviz(dtree, out_file = None, feature_names = features)   #o.
+# data = tree.export_graphviz(dtree, feature_names = features)
 graph = pydotplus.graph_from_dot_data(data)
 
 graph.write_png('D-tree1.png')                  # Error >>>
@@ -110,7 +127,7 @@ plt.show()
 
 
 '''
-Future work >>>
+Future 'hash' includes:         >>>
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
@@ -127,7 +144,7 @@ from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
 from sklearn.inspection import DecisionBoundaryDisplay
-    <<<
+                                <<<
 '''
 
 
