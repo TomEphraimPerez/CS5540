@@ -1,11 +1,11 @@
-# ideally we figure out our features first
-# so we can correctly size up the input layer
-# For now, we'll make it an arguement for rapid 
-# prototyping, along with some other hyperparams
+# Assignment 1 - Basic NN, arebel@calstatela.edu
+#
+# uses the number of fields read in via the features
+# file as the input layer dimension
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--input_dim', type=int, required = True )
+parser.add_argument('input_data_path', type=str )
 parser.add_argument('--layers', type=int, default = 5 )
 parser.add_argument('--units', type=int, default = 5 )
 parser.add_argument('--learning_rate', type=float, default = 0.1 )
@@ -13,23 +13,19 @@ parser.add_argument('--epochs', type=int, default = 5 )
 
 args = parser.parse_args()
 
-# Input data, load from a file! We'll load the
-# wireshark capture, and grab the columns that
-# make sense. TODO: Change to dataloader one day
+import csv
+import pandas
 from torch import tensor
-# Some Junk Data to see what happens!
-data = \
-(
-        tensor\
-        ([
-            [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-            [1, 2, 3, 4, 5, 6, 7, 8, 1, 10]
-        ]).float(),
-        tensor([[1],[0]]).float() 
-)
-# TODO:
-# This is were we'd read our featureized data
-# from disk! (Including Labeled stuff)
+
+df = pandas.read_csv(args.input_data_path)
+X = df.loc[:, df.columns[:-1]]           # TODO: fix later, output col has to be last
+Y = df.loc[:, df.columns[-1]].to_frame() # TODO: fix later, output col has to be last
+X = tensor( X.values ).to(float)
+Y = tensor( Y.values ).to(float)
+
+# actual inputs to our model
+input_dim = X.shape[1]
+data = (X, Y)
 
 # define up the model
 # here, we'll do a densely connected NN
@@ -40,14 +36,14 @@ from torch import nn
 stackup = []
 
 # Input Layer
-stackup.append( nn.Linear( args.input_dim, args.units ) )
+stackup.append( nn.Linear( input_dim, args.units, dtype=float) )
 stackup.append( nn.ReLU() )
 # Hidden Layers
 for _ in range( args.layers - 1 ):
-    stackup.append( nn.Linear( args.units, args.units ) )
+    stackup.append( nn.Linear( args.units, args.units, dtype=float ) )
     stackup.append( nn.ReLU() )
 # Apply the Output Layer
-stackup.append( nn.Linear( args.units, 1 ) )
+stackup.append( nn.Linear( args.units, 1, dtype=float ) )
 stackup.append( nn.Sigmoid() )
 model = nn.Sequential( *stackup )
 
