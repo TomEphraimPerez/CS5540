@@ -7,6 +7,9 @@
 # Github                    # https://github.com/TomEphraimPerez/CS5540
 # (($ conda install graphviz # 3hr installation. conda --version  -> conda 4.12.0 in bash))
 
+# USE/ $ python3 D-tree4R.py homework1-featurizer/monitored_ips.txt
+# USE/ $ python3 D-tree4R.py homework1-featurizer/monitored_ips.txt
+
 print("\n\tMERGED rendition of a decision tree for \"ddos-attacl-prevention\'.")
 print('\n')
 import pandas
@@ -124,7 +127,12 @@ def extract_features_from( window: "iterable" ):      #o
     writer.writerow( features )
 
 # THe abbreviated CSV's, (100 records each) are:
-datasets = ['~/desktop/Archive/abbreviated_dataset_attack.csv', '~/desktop/Archive/abbreviated_dataset_normal.csv']
+# datasets = ['~/desktop/Archive/abbreviated_dataset_attack.csv', '~/desktop/Archive/abbreviated_dataset_normal.csv']
+# datasets = ['abbreviated_dataset_attack.csv', 'abbreviated_dataset_normal.csv']
+datasets = ['features.csv']
+# dataset = df.loc[1:100]               #??
+
+
 
 # process the input CSV files
 for dataset in datasets:
@@ -177,6 +185,8 @@ df = pandas.read_csv("homework1-featurizer/features.csv")       # Rebel's featur
 # print(df)
 X = df.loc[:, df.columns[:-1]]           # TODO: fix later, output col has to be last
 y = df.loc[:, df.columns[-1]].to_frame() # TODO: fix later, output col has to be last
+
+df.head(100)
 
 
 print('\n\t\t X ->')
