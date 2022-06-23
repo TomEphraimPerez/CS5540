@@ -186,7 +186,7 @@ output_file.close()
 
 
 
-df = pandas.read_csv("homework1-featurizer/features.csv")       # Rebel's featureset
+df = pandas.read_csv("homework1-featurizer/features.csv")       # Rebel's full featureset
 # ( abbreviated_dataset_attack.csv           abbreviated_dataset_normal.csv )
 
 # print(df)
@@ -207,33 +207,43 @@ dtree = DecisionTreeClassifier()
 # https://www.kaggle.com/datasets/preeti5607/ddos-attack-prevention
 # datasets = [ 'dataset_attack.csv', 'dataset_normal.csv' ] #o
 from sklearn.model_selection import train_test_split
-X_train, X_test, Y_train, Y_test = train_test_split(X, y, test_size=0.50)
-
-
-# Using the test data
-# y = DecisionTreeClassifier.predict(X_test)                  # ? Need 2 args ?
+# X_train, X_test,    Y_train, Y_test = train_test_split(X, y, test_size=0.50) #o
+X_train, X_test,    Y_train, Y_test = train_test_split(X, y, test_size=1)
 
 # print("Accuracy of D-tree Model w/ k={}:".format(args.k), metrics.accuracy_score(Y_test, y)) # o
-# USE / a la   score = decision_tree.score(var_test, res_test)  # BELOW
+# USE / a la   score = decision_tree.score(var_test, res_test)               # BELOW
 
 dtree = dtree.fit(X, y)         
 plt.figure(figsize=(60,30))
 print('\n\t\tpy SciKit plt.figure as opossed to using graphviz')
-# plot_tree(dtree, filled=True);                              # OK with plt.show()
+# plot_tree(dtree, filled=True);                                                # OK with plt.show()
 print('\n\t\tplot_tree(...) as opposed to using graphviz -> should have a plot below.')
 # plt.show()      # Rendering takes ~75 min when merging csv's, < 4 min otherwise. OK.
 print('\n\n')
 
 # score = dtree.score(true labels, predicted labels)
 score = dtree.score(X, y)
-# print("Accuracy of KNN Model w/ k={}:".format(args.k), metrics.accuracy_score(Y_test, y)) #o
-print(accuracy_score)
+
+
+# Using the test data
+# y = DecisionTreeClassifier.predict(X_test)    # missing 1 required positional argument: 'X' error.
+y = dtree.predict(X_test)
+
+
+print(accuracy_score)                                                           # Returns an address.          
+print("\n\t\t\tD-tree accuracy Classifer:", metrics.accuracy_score(Y_test, y)) # ?
 
 
 
-# ][\][\][\][\][\][\][\][\][\][\][\][\][\][\][\][\][\][\][\][\][\][\][\][\][\][\][\][\][\][\][\][\][]
-# ERRORs :
-# TypeError: predict() missing 1 required positional argument: X
+
+''' RESULTS; 6-22-22)1830
+
+		plot_tree(...) as opposed to using graphviz -> should have a plot below.
+
+<function accuracy_score at 0x122387b80>
+
+			D-tree accuracy metrics.accuracy.score: 1.0
+'''
 
 
 
