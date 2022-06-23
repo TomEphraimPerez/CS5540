@@ -27,7 +27,6 @@ from sklearn.tree import plot_tree
 from sklearn import metrics
 from sklearn.metrics import accuracy_score
 
-
 # ==================== Rebel's FEATURIZER ======== (pytorch ...) =============================|
 # Assignment 1 - Featurizer, arebel@calstatela.edu, Safal, and Tom.
 # Some super basic code that will be used to 
@@ -43,7 +42,7 @@ from sklearn.metrics import accuracy_score
 # we'll start by including in some 'protected' ips
 import argparse
 parser = argparse.ArgumentParser()
-parser.add_argument('monitor_ip_file')      #o 
+parser.add_argument('monitor_ip_file')                          #o 
 parser.add_argument('--output_features_file', default='features.csv')#latter in /CS5540/homework1-featurizer
 parser.add_argument('--window_time', type=float, default=0.100) 
 args = parser.parse_args() #o
@@ -68,8 +67,8 @@ print('Loaded {} IPs to monitor'.format( len(monitored_ips) ) )
 # Read the dataset given to us from
 # https://www.kaggle.com/datasets/preeti5607/ddos-attack-prevention
 
-import csv                  # using Dictwriter/reader
-import collections          # for deque, the window itself
+import csv                                                  # using Dictwriter/reader
+import collections                                          # for deque, the window itself
 
 # Settings for featurizer
 output_file = open( args.output_features_file, 'w' )
@@ -93,7 +92,7 @@ writer.writeheader()
 # related feature (ie time between retries)
 
 
-def extract_features_from( window: "iterable" ):      #o      
+def extract_features_from( window: "iterable" ):                #o      
     # the cols from the dataset are the following:
     # 'frame.encap_type', 'frame.len', 'frame.protocols', 'ip.hdr_len', 'ip.len', 'ip.flags.rb', 'ip.flags.df', 'p.flags.mf', 'ip.frag_offset', 'ip.ttl', 'ip.proto', 'ip.src', 'ip.dst', 'tcp.srcport', 'tcp.dstport', 'tcp.len', 'tcp.ack', 'tcp.flags.res', 'tcp.flags.ns', 'tcp.flags.cwr', 'tcp.flags.ecn', 'tcp.flags.urg', 'tcp.flags.ack', 'tcp.flags.push', 'tcp.flags.reset', 'tcp.flags.syn', 'tcp.flags.fin', 'tcp.window_size', 'tcp.time_delta', 'attack'
 
@@ -137,9 +136,9 @@ def extract_features_from( window: "iterable" ):      #o
 # It's local , so >>>
 # datasets = ['abbreviated_dataset_attack.csv', 'abbreviated_dataset_normal.csv']
 datasets = ['features.csv']
-# dataset = df.loc[1:100]               # ? usage/syntax for panda slicing
+# dataset = df.loc[1:100]                   # ? usage/syntax for panda slicing
 
-# USE /                     $ python3 D-tree5R.py homework1-featurizer/monitored_ips.txt
+# RECAL, USE /                              $ python3 D-tree5R.py homework1-featurizer/monitored_ips.txt
 
 # process the input CSV files
 for dataset in datasets:
@@ -184,18 +183,16 @@ output_file.close()
 # ============== END === Rebel's FEATURIZER ==============================================|
 
 
-
-
 df = pandas.read_csv("homework1-featurizer/features.csv")       # Rebel's full featureset
-# ( abbreviated_dataset_attack.csv           abbreviated_dataset_normal.csv )
+# optionally,    ...(abbreviated_dataset_attack.csv, abbreviated_dataset_normal.csv )
 
 # print(df)
-X = df.loc[:, df.columns[:-1]]           # TODO: fix later, output col has to be last
-y = df.loc[:, df.columns[-1]].to_frame() # TODO: fix later, output col has to be last
+X = df.loc[:, df.columns[:-1]]           
+y = df.loc[:, df.columns[-1]].to_frame() 
 
 df.head(100)
 
-
+print('\n\n\t\t\t\t\t\t| "Proof of life |')
 print('\n\t\t X ->')
 print(X)
 print('\n\t\tY ->')
@@ -211,27 +208,24 @@ from sklearn.model_selection import train_test_split
 X_train, X_test,    Y_train, Y_test = train_test_split(X, y, test_size=1)
 
 # print("Accuracy of D-tree Model w/ k={}:".format(args.k), metrics.accuracy_score(Y_test, y)) # o
-# USE / a la   score = decision_tree.score(var_test, res_test)               # BELOW
+# USE / a la   score = decision_tree.score(var_test, res_test)      # BELOW
 
 dtree = dtree.fit(X, y)         
 plt.figure(figsize=(60,30))
-print('\n\t\tpy SciKit plt.figure as opossed to using graphviz')
-# plot_tree(dtree, filled=True);                                                # OK with plt.show()
-print('\n\t\tplot_tree(...) as opposed to using graphviz -> should have a plot below.')
+
+# plot_tree(dtree, filled=True);                                    # OK with plt.show()
+print('\n\t\tplot_tree((Optionally commented out since expensive.))')
 # plt.show()      # Rendering takes ~75 min when merging csv's, < 4 min otherwise. OK.
 print('\n\n')
 
 # score = dtree.score(true labels, predicted labels)
 score = dtree.score(X, y)
 
-
 # Using the test data
-# y = DecisionTreeClassifier.predict(X_test)    # missing 1 required positional argument: 'X' error.
 y = dtree.predict(X_test)
 
-
-print(accuracy_score)                                                           # Returns an address.          
-print("\n\t\t\tD-tree accuracy Classifer:", metrics.accuracy_score(Y_test, y)) # ?
+# print(accuracy_score)                                             # Returns an address.          
+print("\n\t\t\tD-tree function call; metrics.accuracy_score(Y_test, y)", metrics.accuracy_score(Y_test, y))
 
 
 
