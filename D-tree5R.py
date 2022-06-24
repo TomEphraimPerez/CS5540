@@ -26,6 +26,8 @@ import matplotlib.image as pltimg
 from sklearn.tree import plot_tree
 from sklearn import metrics
 from sklearn.metrics import accuracy_score
+from sklearn.metrics import precision_score
+
 
 # ==================== Rebel's FEATURIZER ======== (pytorch ...) =============================|
 # Assignment 1 - Featurizer, arebel@calstatela.edu, Safal, and Tom.
@@ -131,14 +133,14 @@ def extract_features_from( window: "iterable" ):                #o
     # Output the data to the csv file
     writer.writerow( features )
 
-# The abbreviated CSV's, (100 records each) are:
+# The abbreviated CSV's, (100 records each) are: 
 # datasets = ['~/desktop/Archive/abbreviated_dataset_attack.csv', '~/desktop/Archive/abbreviated_dataset_normal.csv']
 # It's local , so >>>
 # datasets = ['abbreviated_dataset_attack.csv', 'abbreviated_dataset_normal.csv']
 datasets = ['features.csv']
 # dataset = df.loc[1:100]                   # ? usage/syntax for panda slicing
 
-# RECAL, USE /                              $ python3 D-tree5R.py homework1-featurizer/monitored_ips.txt
+# RECALL, USE /                              $ python3 D-tree5R.py homework1-featurizer/monitored_ips.txt
 
 # process the input CSV files
 for dataset in datasets:
@@ -190,9 +192,9 @@ df = pandas.read_csv("homework1-featurizer/features.csv")       # Rebel's full f
 X = df.loc[:, df.columns[:-1]]           
 y = df.loc[:, df.columns[-1]].to_frame() 
 
-df.head(100)
+# df.head(100)
 
-print('\n\n\t\t\t\t\t\t| "Proof of life |')
+print('\n\n\t\t\t\t\t\t\t| "Proof of life |')
 print('\n\t\t X ->')
 print(X)
 print('\n\t\tY ->')
@@ -204,8 +206,8 @@ dtree = DecisionTreeClassifier()
 # https://www.kaggle.com/datasets/preeti5607/ddos-attack-prevention
 # datasets = [ 'dataset_attack.csv', 'dataset_normal.csv' ] #o
 from sklearn.model_selection import train_test_split
-# X_train, X_test,    Y_train, Y_test = train_test_split(X, y, test_size=0.50) #o
-X_train, X_test,    Y_train, Y_test = train_test_split(X, y, test_size=1)
+#X_train, X_test,    Y_train, Y_test = train_test_split(X, y, test_size=.1) # ACCURACY=0,86
+X_train, X_test,    Y_train, Y_test = train_test_split(X, y, test_size=1)   # ACCURACY=1.00
 
 # print("Accuracy of D-tree Model w/ k={}:".format(args.k), metrics.accuracy_score(Y_test, y)) # o
 # USE / a la   score = decision_tree.score(var_test, res_test)      # BELOW
@@ -214,21 +216,33 @@ dtree = dtree.fit(X, y)
 plt.figure(figsize=(60,30))
 
 # plot_tree(dtree, filled=True);                                    # OK with plt.show()
-print('\n\t\tplot_tree((Optionally commented out since expensive.))')
+print('\n\t\tplot_tree(Optionally commented out since expensive)')
 # plt.show()      # Rendering takes ~75 min when merging csv's, < 4 min otherwise. OK.
 print('\n\n')
 
 # score = dtree.score(true labels, predicted labels)
-score = dtree.score(X, y)
+score = dtree.score(X, y)                                           # ok? 6-24)0800
 
 # Using the test data
 y = dtree.predict(X_test)
 
-# print(accuracy_score)                                             # Returns an address.          
+# ACCURACY >>>>>>>>>>>>>>>>
+# printaccuracy_score)                                             # Returns an address.          
 print("\n\t\t\tD-tree function call; metrics.accuracy_score(Y_test, y)", metrics.accuracy_score(Y_test, y))
 
 
+# PRECISION >>>>>>>>>>>>>>>
+micro_precision = precision_score(y, Y_test, average='micro')
+print('\n\t\t\tMicro-averaged precision score: {0:0.2f}'.format(micro_precision))
 
+macro_precision = precision_score(y, Y_test, average='macro')
+print('\n\t\t\tMacro-averaged precision score: {0:0.2f}'.format(macro_precision))
+
+per_class_precision = precision_score(y, Y_test, average=None)
+print('\n\t\t\tPer-class precision score:', per_class_precision)
+
+print('\n\nEND Decision tree.')
+print('\n')
 
 ''' RESULTS; 6-22-22)1830
 D-tree function call; metrics.accuracy_score(Y_test, y) 1.0
