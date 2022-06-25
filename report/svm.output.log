@@ -1,0 +1,6 @@
+Pickled Model 2022-06-25_11-54_11_svm.pkl
+Accuracy of SVM Classifer: 0.5118862823045451
+[[251609      0]
+ [239924      0]]
+TN:251609, FP:0, FN:239924, TP:0
+TN:51.19%, FP:0.0%, FN:48.81%, TP:0.0%

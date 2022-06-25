@@ -1,0 +1,6 @@
+Created pickeled model 2022-06-25_11-54_19_rf.pkl
+Accuracy of Random Forest Classifer: 0.8161812126551015
+[[234651  17559]
+ [ 72794 166529]]
+TN:234651, FP:17559, FN:72794, TP:166529
+TN:47.74%, FP:3.572%, FN:14.81%, TP:33.88%

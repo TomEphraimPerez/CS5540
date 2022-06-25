@@ -1,0 +1,6 @@
+Pickled Model 2022-06-25_11-48_58_dt.pkl
+Accuracy of Decision Tree Classifer: 0.8151334701840975
+[[234752  17065]
+ [ 73803 165913]]
+TN:234752, FP:17065, FN:73803, TP:165913
+TN:47.76%, FP:3.472%, FN:15.01%, TP:33.75%
