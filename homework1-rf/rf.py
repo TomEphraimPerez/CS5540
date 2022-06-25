@@ -33,8 +33,8 @@ else:
     model = RandomForestClassifier()
     model.fit(X_train, Y_train)
     # save for future use
-    model_file = '{:%Y-%m-%d_%H-%M_%S}_rf.pkl'.format(datetime.datetime.now()
-    joblib.dump(model, model_file))
+    model_file = '{:%Y-%m-%d_%H-%M_%S}_rf.pkl'.format(datetime.datetime.now())
+    joblib.dump(model, model_file)
     print('Created pickeled model', model_file)
 
 # Let's do a pass using the test data
