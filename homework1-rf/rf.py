@@ -28,12 +28,12 @@ if args.model is not None:
     model = joblib.load(args.model)
 else:
     import datetime
-# finally we'll do the training of the classifer
+    # finally we'll do the training of the classifer
     from sklearn.ensemble import RandomForestClassifier
     model = RandomForestClassifier()
     model.fit(X_train, Y_train)
     # save for future use
-    joblib.dump(model, '{:%Y-%m-%d_%H-%M_%S}_model-k{}.pkl'.format(datetime.datetime.now(), args.k))
+    joblib.dump(model, '{:%Y-%m-%d_%H-%M_%S}_model.pkl'.format(datetime.datetime.now()))
 
 # Let's do a pass using the test data
 from sklearn import metrics
