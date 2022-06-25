@@ -32,9 +32,19 @@ else:
     model = KNeighborsClassifier(n_neighbors=args.k)
     model.fit(X_train, Y_train)
     # save for future use
-    joblib.dump(model, '{:%Y-%m-%d_%H-%M_%S}_knn-k{}.pkl'.format(datetime.datetime.now(), args.k))
+    model_file = '{:%Y-%m-%d_%H-%M_%S}_knn-k{}.pkl'.format(datetime.datetime.now(), args.k)
+    joblib.dump(model, model_file)
+    print('Pickled Model', model_file)
 
 # Let's do a pass using the test data
 from sklearn import metrics
 y = model.predict(X_test)
 print("Accuracy of KNN Model:", metrics.accuracy_score(Y_test, y))
+confusion_matrix = metrics.confusion_matrix(Y_test, y)
+print( confusion_matrix )
+# extract out TN, FP, FN, TP from confusion_matrix
+flattened_confusion_matrix = confusion_matrix.ravel()
+print("TN:{}, FP:{}, FN:{}, TP:{}".format(*flattened_confusion_matrix))
+total = sum(flattened_confusion_matrix)
+percents = (flattened_confusion_matrix/total) * 100
+print("TN:{:.4}%, FP:{:.4}%, FN:{:.4}%, TP:{:.4}%".format(*percents))
