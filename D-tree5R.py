@@ -244,9 +244,6 @@ print('\n\t\t\tPer-class precision score:', per_class_precision)
 print('\n\nEND Decision tree.')
 print('\n')
 
-''' RESULTS; 6-22-22)1830
-D-tree function call; metrics.accuracy_score(Y_test, y) 1.0
-'''
 
 
 
