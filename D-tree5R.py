@@ -14,6 +14,8 @@
 
 print("\n\tMERGED rendition of a decision tree for \"ddos-attacl-prevention\'.")
 print('\n')
+
+from sklearn import datasets
 import pandas
 from sklearn.tree import DecisionTreeClassifier
 import matplotlib.pyplot as plt
@@ -25,12 +27,13 @@ import pydotplus
 import matplotlib.image as pltimg
 from sklearn.tree import plot_tree
 from sklearn import metrics
-from sklearn.metrics import accuracy_score
-from sklearn.metrics import precision_score
+
+from sklearn.metrics import precision_recall_fscore_support
+from sklearn.metrics import precision_score, accuracy_score, recall_score, f1_score
 
 from sklearn.model_selection import train_test_split
 from sklearn import metrics
-
+from sklearn import datasets
 
 # ==================== Rebel's FEATURIZER ======== (pytorch ...) =============================|
 # Assignment 1 - Featurizer, arebel@calstatela.edu, Safal, and Tom.
@@ -220,7 +223,6 @@ plt.figure(figsize=(60,30))
 # plot_tree(dtree, filled=True);                                    # OK with plt.show()
 print('\n\t\tplot_tree(Optionally commented out since expensive)')
 # plt.show()      # Rendering takes ~75 min when merging csv's, < 4 min otherwise. OK.
-print('\n\n')
 
 # score = dtree.score(true labels, predicted labels)
 score = dtree.score(X, y)                                           # ok? 6-24)0800
@@ -231,11 +233,11 @@ y = dtree.predict(X_test)
 
 # ACCURACY >>>>>>>>>>>>>>>>
 # print(accuracy_score)                                             # Returns an address.   
-# accuracy_score(y_true, y_pred, normalize=False)
+#                        accuracy_score(y_true, y_pred, normalize=False)
 accuracy_score = metrics.accuracy_score(Y_test, y, normalize=False)       
 
-print("\n\t\t\tD-tree function call; metrics.accuracy_score(Y_test, y)", metrics.accuracy_score(Y_test, y))
-print('\n\t\t\t\t\t\t\t\t\tPURE ACCURACY SCORE', accuracy_score)  
+print("\n\t\tD-tree function call; metrics.accuracy_score(Y_test, y)", metrics.accuracy_score(Y_test, y))
+print('\n\t\tPure accuracy score ', accuracy_score)  
 print('\n')
 
 
@@ -250,12 +252,9 @@ per_class_precision = precision_score(y, Y_test, average=None)
 print('\n\t\t\tPer-class precision score:', per_class_precision)
 
 
-# DETECTION RATE - AKA Sensitively or Recall of positive class.
-'''
- recall_sensitivity = metrics.recall_score(Y_test, y, pos_label=1) # y |=| preds
- recall_specificity = metrics.recall_score(Y_test, y, pos_label=0) # y |=| preds
- recall_sensitivity, recall_specificity 
-'''
+# DETECTION RATE - AKA Sensitively or Recall of positive class. >>>>>>>>>>>>>>
+print('\n\t\t\tPrecision recall score', precision_recall_fscore_support(y, Y_test, average='macro'))
+
 
 # FALSE POSITIVE RATE >>>>>>>>>>>>>>>
 
@@ -264,6 +263,42 @@ print('\n\t\t\tPer-class precision score:', per_class_precision)
 print('\n\nEND Decision tree.')
 print('\n')
 
+'''
+# stackoverflow.com/questions/50666091/true-positive-rate-and-false-positive-rate-tpr-fpr-for-multi-class-data-in-py
+from sklearn.metrics import confusion_matrix
 
+y_true = [ . . . ]
+y_prediction = [ . . . ]
+
+cnf_matrix = confusion_matrix(y_true, y_prediction)
+print(cnf_matrix)
+
+FP = cnf_matrix.sum(axis=0) - np.diag(cnf_matrix)  
+FN = cnf_matrix.sum(axis=1) - np.diag(cnf_matrix)
+TP = np.diag(cnf_matrix)
+TN = cnf_matrix.sum() - (FP + FN + TP)
+
+FP = FP.astype(float)
+FN = FN.astype(float)
+TP = TP.astype(float)
+TN = TN.astype(float)
+
+# Sensitivity, hit rate, recall, or true positive rate
+TPR = TP/(TP+FN)
+# Specificity or true negative rate
+TNR = TN/(TN+FP) 
+# Precision or positive predictive value
+PPV = TP/(TP+FP)
+# Negative predictive value
+NPV = TN/(TN+FN)
+# Fall out or false positive rate
+FPR = FP/(FP+TN)
+# False negative rate
+FNR = FN/(TP+FN)
+# False discovery rate
+FDR = FP/(TP+FP)
+# Overall accuracy
+ACC = (TP+TN)/(TP+FP+FN+TN)
+'''
 
 
