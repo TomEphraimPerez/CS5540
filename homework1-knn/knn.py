@@ -7,6 +7,7 @@
 import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--k', type=int, default=3 )
+parser.add_argument('--model', default=None)
 parser.add_argument('input_data_path' )
 args = parser.parse_args()
 
@@ -20,12 +21,20 @@ Y = df.loc[:, df.columns[-1]].to_frame() # TODO: fix later, output col has to be
 from sklearn.model_selection import train_test_split
 X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.30)
 
-# finally we'll do the training of the classifer
-from sklearn.neighbors import KNeighborsClassifier
-KNN_Classifer = KNeighborsClassifier(n_neighbors=args.k)
-KNN_Classifer.fit(X_train, Y_train)
+# attempt to load model if it exists
+# else train the an empty model
+import joblib
+if args.model is not None:
+    model = joblib.load(args.model)
+else:
+    import datetime
+    from sklearn.neighbors import KNeighborsClassifier
+    model = KNeighborsClassifier(n_neighbors=args.k)
+    model.fit(X_train, Y_train)
+    # save for future use
+    joblib.save(model, '{:%Y-%m-%d_%H-%M_%S}_model-k{}.pkl'.format(datetime.datetime.now(), args.k))
 
 # Let's do a pass using the test data
 from sklearn import metrics
-y = KNN_Classifer.predict(X_test)
-print("Accuracy of KNN Model w/ k={}:".format(args.k), metrics.accuracy_score(Y_test, y))
+y = model.predict(X_test)
+print("Accuracy of KNN Model:", metrics.accuracy_score(Y_test, y))
