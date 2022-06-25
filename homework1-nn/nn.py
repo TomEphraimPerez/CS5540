@@ -10,6 +10,7 @@ parser.add_argument('--layers', type=int, default = 5 )
 parser.add_argument('--units', type=int, default = 5 )
 parser.add_argument('--learning_rate', type=float, default = 0.1 )
 parser.add_argument('--epochs', type=int, default = 5 )
+parser.add_argument('--model', default = None )
 
 args = parser.parse_args()
 
@@ -20,11 +21,18 @@ from torch import tensor
 df = pandas.read_csv(args.input_data_path)
 X = df.loc[:, df.columns[:-1]]           # TODO: fix later, output col has to be last
 Y = df.loc[:, df.columns[-1]].to_frame() # TODO: fix later, output col has to be last
-X = tensor( X.values ).to(float)
-Y = tensor( Y.values ).to(float)
 
 # actual inputs to our model
 input_dim = X.shape[1]
+
+# split the data up using sklearn's splitting lib
+from sklearn.model_selection import train_test_split
+# Regular 30/70 split (30% for test, 70% for training)
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.30)
+
+# generate the tensors using just the training set
+X = tensor( X_train.values ).to(float)
+Y = tensor( Y_train.values ).to(float)
 data = (X, Y)
 
 # define up the model
@@ -82,3 +90,27 @@ for epoch in range(args.epochs):
 from torch import save
 import datetime
 save(model, '{:%Y-%m-%d_%H-%M_%S}_model.pth'.format(datetime.datetime.now()))
+
+# Now using the test-set, check how good the training was
+# place model into inference only mode
+from torch import inference_mode
+X = tensor( X_test.values ).to(float)
+Y = tensor( Y_test.values ).to(float)
+with inference_mode():
+    y = model( X )
+
+# Predictor, if ( greater than median value ) == True == is_attack
+import numpy
+y = pandas.DataFrame( y.numpy() ) > numpy.median( y.numpy() )
+
+# Perform the same Metrics Calculation as Other models
+from sklearn import metrics
+print("Accuracy of Neural Network Classifer:", metrics.accuracy_score(Y_test, y))
+confusion_matrix = metrics.confusion_matrix(Y_test, y)
+print( confusion_matrix )
+# extract out TN, FP, FN, TP from confusion_matrix
+flattened_confusion_matrix = confusion_matrix.ravel()
+print("TN:{}, FP:{}, FN:{}, TP:{}".format(*flattened_confusion_matrix))
+total = sum(flattened_confusion_matrix)
+percents = (flattened_confusion_matrix/total) * 100
+print("TN:{:.4}%, FP:{:.4}%, FN:{:.4}%, TP:{:.4}%".format(*percents))
