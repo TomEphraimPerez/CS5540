@@ -33,7 +33,7 @@ else:
     model = svm.LinearSVC()
     model.fit(X_train, Y_train)
     # save for future use
-    joblib.save(model, '{:%Y-%m-%d_%H-%M_%S}_model-k{}.pkl'.format(datetime.datetime.now(), args.k))
+    joblib.dump(model, '{:%Y-%m-%d_%H-%M_%S}_model-k{}.pkl'.format(datetime.datetime.now(), args.k))
 
 # Let's do a pass using the test data
 from sklearn import metrics

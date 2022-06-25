@@ -33,7 +33,7 @@ else:
     # finally we'll do the training of the classifer
     model.fit(X_train, Y_train)
     # save for future use
-    joblib.save(model, '{:%Y-%m-%d_%H-%M_%S}_model.pkl'.format(datetime.datetime.now()))
+    joblib.dump(model, '{:%Y-%m-%d_%H-%M_%S}_model.pkl'.format(datetime.datetime.now()))
 
 # Let's do a pass using the test data
 from sklearn import metrics
