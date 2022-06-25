@@ -28,6 +28,9 @@ from sklearn import metrics
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import precision_score
 
+from sklearn.model_selection import train_test_split
+from sklearn import metrics
+
 
 # ==================== Rebel's FEATURIZER ======== (pytorch ...) =============================|
 # Assignment 1 - Featurizer, arebel@calstatela.edu, Safal, and Tom.
@@ -64,7 +67,7 @@ with open(args.monitor_ip_file) as file:
         ip_as_int = struct.unpack("!I", socket.inet_aton(ip))[0]
         monitored_ips.add( ip_as_int )
 
-print('Loaded {} IPs to monitor'.format( len(monitored_ips) ) )
+print('\nLoaded {} IPs to monitor'.format( len(monitored_ips) ) )
 
 # Read the dataset given to us from
 # https://www.kaggle.com/datasets/preeti5607/ddos-attack-prevention
@@ -88,17 +91,14 @@ field_names = \
 writer = csv.DictWriter( output_file, fieldnames=field_names )
 writer.writeheader()
 
-# our actual featurizer, assuming we've been given
-# a window that meets our timing specification 
-# so no need to check time deltas, unless it's a window
-# related feature (ie time between retries)
-
+# Our actual featurizer, assuming we've been given a window that meets our timing specification 
+#    so no need to check time deltas, unless it's a window related feature (ie time between retries)
 
 def extract_features_from( window: "iterable" ):                #o      
     # the cols from the dataset are the following:
     # 'frame.encap_type', 'frame.len', 'frame.protocols', 'ip.hdr_len', 'ip.len', 'ip.flags.rb', 'ip.flags.df', 'p.flags.mf', 'ip.frag_offset', 'ip.ttl', 'ip.proto', 'ip.src', 'ip.dst', 'tcp.srcport', 'tcp.dstport', 'tcp.len', 'tcp.ack', 'tcp.flags.res', 'tcp.flags.ns', 'tcp.flags.cwr', 'tcp.flags.ecn', 'tcp.flags.urg', 'tcp.flags.ack', 'tcp.flags.push', 'tcp.flags.reset', 'tcp.flags.syn', 'tcp.flags.fin', 'tcp.window_size', 'tcp.time_delta', 'attack'
 
-    # features we're interested in
+    # Features we're interested in
     # to be extracted from the window
     features = \
     {
@@ -138,9 +138,11 @@ def extract_features_from( window: "iterable" ):                #o
 # It's local , so >>>
 # datasets = ['abbreviated_dataset_attack.csv', 'abbreviated_dataset_normal.csv']
 datasets = ['features.csv']
-# dataset = df.loc[1:100]                   # ? usage/syntax for panda slicing
+# dataset = df.loc[1:100]                   # usage/syntax for panda slicing
 
-# RECALL, USE /                              $ python3 D-tree5R.py homework1-featurizer/monitored_ips.txt
+
+                    # RECALL, USE /        $ python3 D-tree5R.py homework1-featurizer/monitored_ips.txt
+
 
 # process the input CSV files
 for dataset in datasets:
@@ -226,9 +228,15 @@ score = dtree.score(X, y)                                           # ok? 6-24)0
 # Using the test data
 y = dtree.predict(X_test)
 
+
 # ACCURACY >>>>>>>>>>>>>>>>
-# printaccuracy_score)                                             # Returns an address.          
+# print(accuracy_score)                                             # Returns an address.   
+# accuracy_score(y_true, y_pred, normalize=False)
+accuracy_score = metrics.accuracy_score(Y_test, y, normalize=False)       
+
 print("\n\t\t\tD-tree function call; metrics.accuracy_score(Y_test, y)", metrics.accuracy_score(Y_test, y))
+print('\n\t\t\t\t\t\t\t\t\tPURE ACCURACY SCORE', accuracy_score)  
+print('\n')
 
 
 # PRECISION >>>>>>>>>>>>>>>
@@ -240,6 +248,18 @@ print('\n\t\t\tMacro-averaged precision score: {0:0.2f}'.format(macro_precision)
 
 per_class_precision = precision_score(y, Y_test, average=None)
 print('\n\t\t\tPer-class precision score:', per_class_precision)
+
+
+# DETECTION RATE - AKA Sensitively or Recall of positive class.
+'''
+ recall_sensitivity = metrics.recall_score(Y_test, y, pos_label=1) # y |=| preds
+ recall_specificity = metrics.recall_score(Y_test, y, pos_label=0) # y |=| preds
+ recall_sensitivity, recall_specificity 
+'''
+
+# FALSE POSITIVE RATE >>>>>>>>>>>>>>>
+
+
 
 print('\n\nEND Decision tree.')
 print('\n')
