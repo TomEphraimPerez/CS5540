@@ -1,0 +1,21 @@
+# MSC for proposed 2FA Process
+msc
+{
+ 	hscale = "2";
+
+	client,server;
+	--- [ label = "Regular TLS Connection Setup" ];
+	client box server [ label = "2FA Setup" ];
+	client box client [ label = "Generate High Entropy Secret" ];
+	client -> server [ label = "Exchange Secret over Secure Link" ];
+	client box server [ label = "Save secret, finishing 2FA Setup" ];
+	client box server [ label = "Extract TLS + Connection Details" ];
+	client box server [ label = "Clamp to nearest 30 second window" ];
+	client box server [ label = "Generate TOTP from extracted information" ];
+	server -> client [ label = "Send generated TOTP" ];
+	client box client [ label = "Check server's TOTP against local TOTP + previous window" ];
+	--- [ label = "Server's TOTP matches either current window or previous"];
+	client -> server [ label = "acknowledge TOTP, resume connection" ];
+	--- [ label = "Server's TOTP does not match" ];
+	client -X server [ label = "Client drops from connection" ];
+}
